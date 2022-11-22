@@ -64,6 +64,7 @@ docker exec API_TypeScript_Yrlan ps -eo pid,ppid,user,args --sort pid
     1     0 node     node ./build/index
    13     0 node     ps -eo pid,ppid,user,args --sort pid
 ```
+On voit qu'il n'y plus qu'un process actif sur le conteneur docker qui est l'éxécution du serveur.
 ## Pour lancer le projet :
 1. Cloner le repo avec `git clone https://github.com/yrlan-montagnier/WIK-DPS-TP02.git`
 2. Ouvrir le dossier dans vscode ou dans un terminal et éxecutez ces commandes :
