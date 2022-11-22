@@ -21,9 +21,11 @@ USER node
 ```
 
 ## L'image doit être la plus optimisée possible concernant l'ordre des layers afin de limiter le temps de build lors des modifications sur le code
+Le build de l'image docker à partir du dockerfile se fait via la commande `docker build -t api_typescript_docker .`, il prend environ ~10s à se faire.
+    [build_image](/img/build_image.png)
 
 ## Scanner votre image avec docker scan, trivy ou clair pour obtenir la liste des vulnérabilités détectées
-Pour scanner mon image, j'ai utilisé trivy.
+Pour scanner mon image, j'ai utilisé trivy avec la commande trivy image `api_typescript_docker`.
     ![](./img/Trivy.png)
 
 ## L'image doit utiliser un utilisateur spécifique pour l'exécution de votre serveur web
@@ -38,7 +40,6 @@ node /API_TypeScript_Yrlan
 ## Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages : un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
 
 ## Pour lancer le projet :
-
 1. Cloner le repo avec `git clone https://github.com/yrlan-montagnier/WIK-DPS-TP02.git`
 2. Ouvrir le dossier dans vscode ou dans un terminal et éxecutez ces commandes :
     - `docker build -t api_typescript_docker .`
