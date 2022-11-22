@@ -22,11 +22,11 @@ USER node
 
 ## L'image doit être la plus optimisée possible concernant l'ordre des layers afin de limiter le temps de build lors des modifications sur le code
 Le build de l'image docker à partir du dockerfile se fait via la commande `docker build -t api_typescript_docker .`, il prend environ ~10s à se faire.
-    [build_image](/img/build_image.png)
+    ![Build_Image](/img/build_image.png)
 
 ## Scanner votre image avec docker scan, trivy ou clair pour obtenir la liste des vulnérabilités détectées
 Pour scanner mon image, j'ai utilisé trivy avec la commande trivy image `api_typescript_docker`.
-    ![](./img/Trivy.png)
+    ![Trivy](./img/Trivy.png)
 
 ## L'image doit utiliser un utilisateur spécifique pour l'exécution de votre serveur web
 Dans le dockerfile, on a rajouté `USER node`, qui est intégré à node et permet de lancer le conteneur avec cet utilisateur.
