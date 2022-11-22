@@ -30,10 +30,10 @@ Pour scanner mon image, j'ai utilisé trivy.
 Dans le dockerfile, on a rajouté `USER node`, qui est intégré à node et permet de lancer le conteneur avec cet utilisateur.
 
 Cette commande permet de retourner l'utilisateur sur lequel sont lancés les différents conteneurs en cours :
-    ```
-    yrlan@MSI-9SEXR:~$ docker inspect $(docker ps -q) --format '{{.Config.User}} {{.Name}}'
-    node /API_TypeScript_Yrlan
-    ```
+```
+yrlan@MSI-9SEXR:~$ docker inspect $(docker ps -q) --format '{{.Config.User}} {{.Name}}'
+node /API_TypeScript_Yrlan
+```
 
 ## Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages : un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
 
