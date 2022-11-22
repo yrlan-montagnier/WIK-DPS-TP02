@@ -62,9 +62,12 @@ Ici, le stage de build et d'éxécution sont séparés, j'ai aussi utilisé la s
 1. Cloner le repo avec `git clone https://github.com/yrlan-montagnier/WIK-DPS-TP02.git`
 2. Ouvrir le dossier dans vscode ou dans un terminal et éxecutez ces commandes :
     -   ```
-        ## Pour lancer avec le dockerfile
+        ## Pour lancer le build avec le dockerfile d'origine
         docker build -t api_typescript_docker .
-        ## Pour lancer avec le dockerfile multi-stage (plus rapide)
+
+        ## Pour lancer le build avec le dockerfile multi-stage (plus rapide)
         docker build -t api_typescript_docker -f .\dockerfile2 .
         ```
-    - `docker run -d -p 8080:8080 --name API_TypeScript_Yrlan api_typescript_docker`
+    - Pour lancer le conteneur docker à partir de l'image que l'on vient de build :
+
+        `docker run -d -p 8080:8080 --name API_TypeScript_Yrlan api_typescript_docker`
