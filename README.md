@@ -58,6 +58,12 @@ ENTRYPOINT ["node", "./build/index"]
 USER node
 ```
 Ici, le stage de build et d'éxécution sont séparés, j'ai aussi utilisé la syntaxe d'éxecution pour les commandes et l'entrypoint pour le lancement du serveur.
+```
+docker exec API_TypeScript_Yrlan ps -eo pid,ppid,user,args --sort pid
+  PID  PPID USER     COMMAND
+    1     0 node     node ./build/index
+   13     0 node     ps -eo pid,ppid,user,args --sort pid
+```
 ## Pour lancer le projet :
 1. Cloner le repo avec `git clone https://github.com/yrlan-montagnier/WIK-DPS-TP02.git`
 2. Ouvrir le dossier dans vscode ou dans un terminal et éxecutez ces commandes :
