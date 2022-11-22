@@ -1,4 +1,4 @@
-# WIK-DPS-TP02
+# WIK-DPS-TP02 | MONTAGNIER Yrlan
 
 ## Créer une image Docker avec un seul stage qui permet d’exécuter votre API développée précédemment (WIK-DPS-TP01)
 [dockerfile](dockerfile)
