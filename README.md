@@ -1,53 +1,45 @@
-# DevOps
+# WIK-DPS-TP02
 
-## Mettre en place l'environnement de développement et les bases du projet avec le moins de dépendances possibles
-On initialise le projet et on ajoute la dépendance et le paquet express
+## Créer une image Docker avec un seul stage qui permet d’exécuter votre API développée précédemment (WIK-DPS-TP01)
+[dockerfile](dockerfile)
 ```
-npm init -y
-npm install typescript ts-node @types/node @types/express --save-dev
-npm install express
-npx tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --lib es6 --module commonjs --allowJs true --noImplicitAny true
-mkdir src   // Dossier SRC qui contiendra nos fichiers .ts
-```
-Voici l'architecture du projet une fois les paquets installés et le fichier index.ts créé.
-![](/img/Architecture_Projet.png)
+FROM node as builder
 
-## Développer une API qui retourne au format JSON les headers de la requête quand il y une requête HTTP GET sur /ping
-Quand on se rend sur `localhost:8080/ping`, cela récupère les headers et les envoie en réponse de la requête, ce qui les ajoute dans Application/Json
-```
-app.get('/ping', (req, res) => {
-    res.send(req.headers);
-})
-```
-![Ping](img/Ping.png)
+WORKDIR /usr/src/app
 
-## Le serveur doit écouter sur un port configurable via la variable d'environnement : PING_LISTEN_PORT ou par défaut sur un port au choix
-Ici, j'ai créé une variable ``PING_LISTEN_PORT`` dont la valeur est modifiable (INT), qui permet de changer le port sur lequel le serveur écoute.
-```
-const PING_LISTEN_PORT = 8080;
+COPY package*.json ./
 
-app.listen(PING_LISTEN_PORT, () => {
-    console.log('The application is listening on port ' + PING_LISTEN_PORT + ' !');
-})
-```
-Ici, le port que j'ai défini par défaut est `8080`, on doit donc se rendre sur ``localhost:8080`` pour accéder au serveur.
+RUN npm install
 
-![localhost_8080](img/localhost_8080.png)
-## Réponse vide avec code 404 si quoi que ça soit d'autre que GET /ping
-Sur toutes les pages que l'on n'a pas définit, la réponse de la requête renvoie l'erreur 404.
-```
-app.all('*', (req, res) => {
-  res.status(404).send();
-});
-```
-![404](/img/404.png)
+COPY . .
 
-## Exécution du serveur web
-Ces deux commandes sont à lancer dans le terminal et permettent de build le projet, puis de lancer le serveur.
-```
-npx tsc             // Build le programme, génère le index.js
-node build/index.js // Permet de lancer le serveur
-```
-On se rend ensuite sur localhost:8080 pour accéder au serveur web.
+RUN npx tsc
 
-Localhost:8080/Ping pour tester les pings et vérifier dans application/Json qu'il y'a bien les headers. 
+CMD node build/index.js
+
+USER node
+```
+
+## L'image doit être la plus optimisée possible concernant l'ordre des layers afin de limiter le temps de build lors des modifications sur le code
+
+## Scanner votre image avec docker scan, trivy ou clair pour obtenir la liste des vulnérabilités détectées
+Pour scanner mon image, j'ai utilisé trivy.
+    ![](./img/Trivy.png)
+
+## L'image doit utiliser un utilisateur spécifique pour l'exécution de votre serveur web
+Dans le dockerfile, on a rajouté `USER node`, qui est intégré à node et permet de lancer le conteneur avec cet utilisateur.
+
+Cette commande permet de retourner l'utilisateur sur lequel sont lancés les différents conteneurs en cours :
+    ```
+    yrlan@MSI-9SEXR:~$ docker inspect $(docker ps -q) --format '{{.Config.User}} {{.Name}}'
+    node /API_TypeScript_Yrlan
+    ```
+
+## Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages : un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
+
+## Pour lancer le projet :
+
+1. Cloner le repo avec `git clone https://github.com/yrlan-montagnier/WIK-DPS-TP02.git`
+2. Ouvrir le dossier dans vscode ou dans un terminal et éxecutez ces commandes :
+    - `docker build -t api_typescript_docker .`
+    - `docker run -d -p 8080:8080 --name API_TypeScript_Yrlan api_typescript_docker`
