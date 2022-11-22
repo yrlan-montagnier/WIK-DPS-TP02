@@ -5,7 +5,7 @@ const PING_LISTEN_PORT = 8080; // Définit le port sur lequel se lance le serveu
 
 ///////////////Page d'accueil///////////////
 app.get('/', (req, res) => {
-    res.send('This is a test web page!');
+    res.send('Rendez vous sur localhost:8080/Ping pour tester la récupération des Headers !');
 })
 ////////////////////////////////////////////
 
