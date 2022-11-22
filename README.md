@@ -29,13 +29,15 @@ Pour scanner mon image, j'ai utilisé trivy avec la commande trivy image `api_ty
     ![Trivy](./img/Trivy.png)
 
 ## L'image doit utiliser un utilisateur spécifique pour l'exécution de votre serveur web
-Dans le dockerfile, on a rajouté `USER node`, qui est intégré à node et permet de lancer le conteneur avec cet utilisateur.
+Dans le dockerfile, on a rajouté `USER node` à la fin du fichier, qui est intégré à l'image de node et permet de lancer le conteneur avec cet utilisateur `node`.
+Cela se passe donc pendant le build de l'image.
 
 Cette commande permet de retourner l'utilisateur sur lequel sont lancés les différents conteneurs en cours :
 ```
 yrlan@MSI-9SEXR:~$ docker inspect $(docker ps -q) --format '{{.Config.User}} {{.Name}}'
 node /API_TypeScript_Yrlan
 ```
+On voit que notre conteneur (API_TypeScript_Yrlan) est bien lancé via l'utilisateur `node`
 
 ## Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages : un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
 
